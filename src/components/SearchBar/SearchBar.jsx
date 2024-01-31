@@ -1,9 +1,11 @@
+import toast from 'react-hot-toast';
 export const SearchBar = ({ onSearch }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log(e.target.elements.query.value);
 
     if (e.target.elements.query.value.trim() === '') {
+      toast.error('EMPTY STRING');
       return;
     }
 

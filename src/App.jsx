@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { ImageCallery } from './components/ImageGallery/ImageGallery';
 import { SearchBar } from './components/SearchBar/SearchBar';
+import { Toaster } from 'react-hot-toast';
 
 const API_URL = 'https://api.unsplash.com/photos';
 
@@ -37,6 +38,7 @@ export const App = () => {
       {loading && <b>Loading articles, please wait ...</b>}
       {error && <b>Oops, there was an error, please try reloading 😅</b>}
       {articles.length > 0 && <ImageCallery items={articles} />}
+      <Toaster position="top-right" />
     </>
   );
 };
