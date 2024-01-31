@@ -1,10 +1,20 @@
-export const SearchBar = () => {
+export const SearchBar = ({ onSearch }) => {
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(e.target.elements.query.value);
+
+    if (e.target.elements.query.value.trim() === '') {
+      return;
+    }
+
+    onSearch(e.target.elements.query.value);
+    e.target.reset();
+  };
+
   return (
-    <header>
-      <form>
-        <input type="text" autocomplete="off" autofocus placeholder="Search images and photos" />
-        <button type="submit">Search</button>
-      </form>
-    </header>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="query" />
+      <button type="submit">Search</button>
+    </form>
   );
 };

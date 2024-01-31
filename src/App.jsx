@@ -1,37 +1,32 @@
 import axios from 'axios';
-import { useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { ImageCallery } from './components/ImageGallery/ImageGallery';
+import { SearchBar } from './components/SearchBar/SearchBar';
 
-const API_URL = 'https://api.unsplash.com/search/photos';
+const API_URL = 'https://api.unsplash.com/photos';
 
-const IMAGES_PER_PAGE = 20;
+const IMAGES_PER_PAGE = 8;
 
 export const App = () => {
-  const searchInput = useRef(null);
+  const [articles, setArticles] = useState([]);
 
-  useEffect(() => {
-    async function fetchArticles() {
-      const result = await axios.get(
-        `${API_URL}?query=${searchInput.value}&page=1&per_page=${IMAGES_PER_PAGE}&client_id=${
+  const searchArticles = async query => {
+    try {
+      const response = await axios.get(
+        `${API_URL}?query=${query}&per_page=${IMAGES_PER_PAGE}&client_id=${
           import.meta.env.VITE_API_KEY
         }`
       );
-      console.log(result.data);
-    }
-
-    fetchArticles();
-  }, []);
-
-  const handleSearch = evt => {
-    evt.preventDefault();
-    console.log(searchInput.current.value);
+      console.log(response.data);
+      setArticles(response.data);
+    } catch (error) {}
   };
 
   return (
     <>
-      <h1>Latest articles</h1>
-      <form onSubmit={handleSearch}>
-        <input type="text" placeholder="Search images and photos" />
-      </form>
+      <SearchBar onSearch={searchArticles} />
+
+      {articles.length > 0 && <ImageCallery items={articles} />}
     </>
   );
 };
