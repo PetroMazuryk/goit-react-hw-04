@@ -4,6 +4,7 @@ import { ImageCallery } from './components/ImageGallery/ImageGallery';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { Toaster } from 'react-hot-toast';
 import { Loader } from './components/Loader/Loader';
+import { LoadMoreBtn } from './components/LoadMoreBtn/LoadMoreBtn';
 
 const API_URL = 'https://api.unsplash.com/search/photos';
 const API_KEY = 'IQfqBWFtUwIv7vwsJMmuzblOE_R_YD5Ct0w72vsl7Rw';
@@ -55,7 +56,8 @@ export const App = () => {
       {error && <b>Oops, there was an error, please try reloading 😅</b>}
       {photos.length > 0 && <ImageCallery items={photos} />}
       {loading && <Loader />}
-      {photos.length > 0 && !photos.loading && <button onClick={handleLoadMore}>Load more</button>}
+
+      {photos.length > 0 && !photos.loading && <LoadMoreBtn onClick={handleLoadMore} />}
 
       <Toaster position="top-right" />
     </>

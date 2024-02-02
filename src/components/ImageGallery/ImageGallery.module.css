@@ -49,3 +49,13 @@
   font-size: 14px;
   border: 1px solid red;
 }
+
+.titleWrapper {
+  padding: 2px 12px;
+  color: #f3e9e9;
+}
+
+.titleYear {
+  font-size: 12px;
+  color: #f0df8b;
+}
