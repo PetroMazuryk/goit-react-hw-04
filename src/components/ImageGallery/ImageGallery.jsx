@@ -5,13 +5,13 @@ export const ImageCallery = ({ items }) => {
     <ul className={css.list}>
       {items.map(item => (
         <li key={item.user.id}>
-          <div>
+          <div className={css.wrapper}>
             <div className={css.thumb}>
-              <img src={item.urls.small} alt={item.description} />
+              <img className={css.img} src={item.urls.small} alt={item.description} />
             </div>
 
             <h2>{item.user.name}</h2>
-            <p>{item.user.total_likes}</p>
+            <p className={css.likes}>{item.user.total_likes}</p>
             <p>Кількість фотографій: {item.user.total_photos}</p>
             <p>Кількість колекцій: {item.user.total_collections}</p>
             <p> {item.user.updated_at}</p>
