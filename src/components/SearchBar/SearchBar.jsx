@@ -1,4 +1,7 @@
 import toast from 'react-hot-toast';
+import css from './SearchBar.module.css';
+import { MdOutlineScreenSearchDesktop } from 'react-icons/md';
+
 export const SearchBar = ({ onSearch }) => {
   const handleSubmit = e => {
     e.preventDefault();
@@ -14,9 +17,18 @@ export const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="query" />
-      <button type="submit">Search</button>
-    </form>
+    <header className={css.header}>
+      <form className={css.form} onSubmit={handleSubmit}>
+        <button className={css.button} type="submit">
+          <MdOutlineScreenSearchDesktop className={css.icon} />
+        </button>
+        <input
+          className={css.input}
+          type="text"
+          name="query"
+          placeholder="Search images and photos"
+        />
+      </form>
+    </header>
   );
 };
