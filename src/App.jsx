@@ -68,14 +68,22 @@ export const App = () => {
       <SearchBar onSearch={searchPhotos} />
 
       {error && <ErrorMessage />}
-      {photos.length > 0 && <ImageCallery items={photos} onPhotoClick={openModal} />}
+      {photos.length > 0 && (
+        <ImageCallery items={photos} onPhotoClick={openModal} />
+      )}
       {loading && <Loader />}
 
-      {photos.length > 0 && !photos.loading && page < totalPages && <LoadMoreBtn onClick={handleLoadMore} />}
+      {photos.length > 0 && !photos.loading && page < totalPages && (
+        <LoadMoreBtn onClick={handleLoadMore} />
+      )}
 
       <Toaster position="top-right" />
 
-      <ImageModal isOpen={modalIsOpen} onRequestClose={closeModal} imageUrl={selectedPhotoUrl} />
+      <ImageModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        imageUrl={selectedPhotoUrl}
+      />
     </>
   );
 };

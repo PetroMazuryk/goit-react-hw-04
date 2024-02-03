@@ -22,7 +22,12 @@ export const SearchBar = ({ onSearch }) => {
         <button className={css.button} type="submit">
           <MdOutlineScreenSearchDesktop className={css.icon} />
         </button>
-        <input className={css.input} type="text" name="query" placeholder="Search images and photos" />
+        <input
+          className={css.input}
+          type="text"
+          name="query"
+          placeholder="Search images and photos"
+        />
       </form>
     </header>
   );
