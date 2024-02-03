@@ -6,6 +6,7 @@ import { Loader } from './components/Loader/Loader';
 import { LoadMoreBtn } from './components/LoadMoreBtn/LoadMoreBtn';
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage';
 import { fetchApi } from './servises/FetchApi';
+import { ImageModal } from './components/ImageModal/ImageModal';
 
 export const App = () => {
   const [query, setQuery] = useState('');
@@ -14,6 +15,10 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedPhotoUrl, setSelectedPhotoUrl] = useState('');
+
   const per_pages = 8;
 
   const searchPhotos = async newQuery => {
@@ -49,17 +54,28 @@ export const App = () => {
     fetchData();
   }, [query, page]);
 
+  const openModal = photoUrl => {
+    setSelectedPhotoUrl(photoUrl);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <>
       <SearchBar onSearch={searchPhotos} />
 
       {error && <ErrorMessage />}
-      {photos.length > 0 && <ImageCallery items={photos} />}
+      {photos.length > 0 && <ImageCallery items={photos} onPhotoClick={openModal} />}
       {loading && <Loader />}
 
       {photos.length > 0 && !photos.loading && page < totalPages && <LoadMoreBtn onClick={handleLoadMore} />}
 
       <Toaster position="top-right" />
+
+      <ImageModal isOpen={modalIsOpen} onRequestClose={closeModal} imageUrl={selectedPhotoUrl} />
     </>
   );
 };
