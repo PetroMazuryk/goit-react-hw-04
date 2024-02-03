@@ -5,7 +5,7 @@ export const ImageCallery = ({ items }) => {
   return (
     <ul className={css.list}>
       {items.map(item => (
-        <li key={item.user.id}>
+        <li key={item.id}>
           <ImageCard item={item} />
         </li>
       ))}

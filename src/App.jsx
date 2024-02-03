@@ -7,19 +7,16 @@ import { LoadMoreBtn } from './components/LoadMoreBtn/LoadMoreBtn';
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage';
 import { fetchApi } from './servises/FetchApi';
 
-// const API_URL = 'https://api.unsplash.com/search/photos';
-// const API_KEY = 'IQfqBWFtUwIv7vwsJMmuzblOE_R_YD5Ct0w72vsl7Rw';
-
-// const IMAGES_PER_PAGE = 8;
-
 export const App = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const per_pages = 8;
 
-  const searchArticles = async newQuery => {
+  const searchPhotos = async newQuery => {
     setQuery(`${Date.now()}/${newQuery}`);
     setPage(1);
     setPhotos([]);
@@ -38,16 +35,11 @@ export const App = () => {
         setLoading(true);
         setError(false);
 
-        const fetchData = await fetchApi(query.split('/')[1], page);
-        // const response = await axios.get(`${API_URL}`, {
-        //   params: {
-        //     page: page,
-        //     query: query.split('/')[1],
-        //     per_page: IMAGES_PER_PAGE,
-        //     client_id: API_KEY,
-        //   },
-        // });
-        setPhotos(prevArticles => [...prevArticles, ...fetchData]);
+        const fetchData = await fetchApi(query.split('/')[1], page, per_pages);
+
+        const totalPages = fetchData.total_pages;
+        setTotalPages(totalPages);
+        setPhotos(prevPhotos => [...prevPhotos, ...fetchData.results]);
       } catch (error) {
         setError(true);
       } finally {
@@ -59,13 +51,13 @@ export const App = () => {
 
   return (
     <>
-      <SearchBar onSearch={searchArticles} />
+      <SearchBar onSearch={searchPhotos} />
 
       {error && <ErrorMessage />}
       {photos.length > 0 && <ImageCallery items={photos} />}
       {loading && <Loader />}
 
-      {photos.length > 0 && !photos.loading && <LoadMoreBtn onClick={handleLoadMore} />}
+      {photos.length > 0 && !photos.loading && page < totalPages && <LoadMoreBtn onClick={handleLoadMore} />}
 
       <Toaster position="top-right" />
     </>
