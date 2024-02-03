@@ -5,6 +5,7 @@ import { SearchBar } from './components/SearchBar/SearchBar';
 import { Toaster } from 'react-hot-toast';
 import { Loader } from './components/Loader/Loader';
 import { LoadMoreBtn } from './components/LoadMoreBtn/LoadMoreBtn';
+import { ErrorMessage } from './components/ErrorMessage/ErrorMessage';
 
 const API_URL = 'https://api.unsplash.com/search/photos';
 const API_KEY = 'IQfqBWFtUwIv7vwsJMmuzblOE_R_YD5Ct0w72vsl7Rw';
@@ -36,9 +37,7 @@ export const App = () => {
       try {
         setLoading(true);
         setError(false);
-        const response = await axios.get(
-          `${API_URL}?page=${page}&query=${query}&per_page=${IMAGES_PER_PAGE}&client_id=${API_KEY}`
-        );
+        const response = await axios.get(`${API_URL}?page=${page}&query=${query}&per_page=${IMAGES_PER_PAGE}&client_id=${API_KEY}`);
         setPhotos(prevArticles => [...prevArticles, ...response.data.results]);
       } catch (error) {
         setError(true);
@@ -53,7 +52,7 @@ export const App = () => {
     <>
       <SearchBar onSearch={searchArticles} />
 
-      {error && <b>Oops, there was an error, please try reloading 😅</b>}
+      {error && <ErrorMessage />}
       {photos.length > 0 && <ImageCallery items={photos} />}
       {loading && <Loader />}
 
