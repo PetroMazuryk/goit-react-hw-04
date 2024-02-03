@@ -20,7 +20,7 @@ export const App = () => {
   const [error, setError] = useState(false);
 
   const searchArticles = async newQuery => {
-    setQuery(newQuery);
+    setQuery(`${Date.now()}/${newQuery}`);
     setPage(1);
     setPhotos([]);
   };
@@ -37,7 +37,7 @@ export const App = () => {
       try {
         setLoading(true);
         setError(false);
-        const response = await axios.get(`${API_URL}?page=${page}&query=${query}&per_page=${IMAGES_PER_PAGE}&client_id=${API_KEY}`);
+        const response = await axios.get(`${API_URL}?page=${page}&query=${query.split('/')[1]}&per_page=${IMAGES_PER_PAGE}&client_id=${API_KEY}`);
         setPhotos(prevArticles => [...prevArticles, ...response.data.results]);
       } catch (error) {
         setError(true);
