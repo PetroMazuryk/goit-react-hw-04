@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ImageCallery } from './components/ImageGallery/ImageGallery';
 import { SearchBar } from './components/SearchBar/SearchBar';
@@ -6,11 +5,12 @@ import { Toaster } from 'react-hot-toast';
 import { Loader } from './components/Loader/Loader';
 import { LoadMoreBtn } from './components/LoadMoreBtn/LoadMoreBtn';
 import { ErrorMessage } from './components/ErrorMessage/ErrorMessage';
+import { fetchApi } from './servises/FetchApi';
 
-const API_URL = 'https://api.unsplash.com/search/photos';
-const API_KEY = 'IQfqBWFtUwIv7vwsJMmuzblOE_R_YD5Ct0w72vsl7Rw';
+// const API_URL = 'https://api.unsplash.com/search/photos';
+// const API_KEY = 'IQfqBWFtUwIv7vwsJMmuzblOE_R_YD5Ct0w72vsl7Rw';
 
-const IMAGES_PER_PAGE = 8;
+// const IMAGES_PER_PAGE = 8;
 
 export const App = () => {
   const [query, setQuery] = useState('');
@@ -37,8 +37,17 @@ export const App = () => {
       try {
         setLoading(true);
         setError(false);
-        const response = await axios.get(`${API_URL}?page=${page}&query=${query.split('/')[1]}&per_page=${IMAGES_PER_PAGE}&client_id=${API_KEY}`);
-        setPhotos(prevArticles => [...prevArticles, ...response.data.results]);
+
+        const fetchData = await fetchApi(query.split('/')[1], page);
+        // const response = await axios.get(`${API_URL}`, {
+        //   params: {
+        //     page: page,
+        //     query: query.split('/')[1],
+        //     per_page: IMAGES_PER_PAGE,
+        //     client_id: API_KEY,
+        //   },
+        // });
+        setPhotos(prevArticles => [...prevArticles, ...fetchData]);
       } catch (error) {
         setError(true);
       } finally {
