@@ -5,10 +5,15 @@ import { MdOutlineScreenSearchDesktop } from 'react-icons/md';
 export const SearchBar = ({ onSearch }) => {
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target.elements.query.value);
 
-    if (e.target.elements.query.value.trim() === '') {
+    const query = e.target.elements.query.value.trim();
+    if (query === '') {
       toast.error('EMPTY STRING. PLEASE ENTER A VALUE !!!');
+      return;
+    }
+
+    if (query.length < 3) {
+      toast.error('Please enter a longer search term.');
       return;
     }
 

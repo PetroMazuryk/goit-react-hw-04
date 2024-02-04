@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { ImageCallery } from './components/ImageGallery/ImageGallery';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { Toaster } from 'react-hot-toast';
@@ -43,6 +44,10 @@ export const App = () => {
         const fetchData = await fetchApi(query.split('/')[1], page, per_pages);
 
         const totalPages = fetchData.total_pages;
+        if (totalPages === 0) {
+          toast.error('Please enter the correct name');
+          return;
+        }
         setTotalPages(totalPages);
         setPhotos(prevPhotos => [...prevPhotos, ...fetchData.results]);
       } catch (error) {
@@ -77,7 +82,7 @@ export const App = () => {
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
 
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
 
       <ImageModal
         isOpen={modalIsOpen}
